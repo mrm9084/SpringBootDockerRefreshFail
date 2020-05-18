@@ -16,23 +16,23 @@ Create an Environment Variable matching the one listed or overwrite the placehol
 
 ### Run the application
 
-1. Build the application using:
+1. Build the application using.
 
-```console
-mvn clean package
-```
+    ```console
+    mvn clean package
+    ```
 
 1. Build the docker container.
 
-```console
-docker build -t azureAppConfigContainer .
-```
+    ```console
+    docker build -t azureAppConfigContainer .
+    ```
 
 1. Run the newly built container.
 
-```console
-docker run -e CONNECTION_STRING=%CONNECTION_STRING% -p 8080:8080 -i -i azureAppConfigContainer /bin/bash
-```
+    ```console
+    docker run -e CONNECTION_STRING=%CONNECTION_STRING% -p 8080:8080 -i -i azureAppConfigContainer /bin/bash
+    ```
 
 1. Once the application has fully started goto http://localhost:8080 to check the returned value.
 
