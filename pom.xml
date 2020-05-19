@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.microsoft.example</groupId>
-    <artifactId>azure-app-config-docker</artifactId>
+    <artifactId>spring-boot-docker-refresh-fail</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
-    <name>Azure App Config Spring Boot Docker</name>
-    <description>Getting started with Spring Boot, Docker, and App Configuration</description>
+    <name>Spring Boot Docker Refresh Fail</name>
+    <description>Shows an issue where Refresh fails with CPU count greater than 2</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -21,8 +21,30 @@
     <properties>
         <docker.image.prefix>springregistrydemo.azurecr.io</docker.image.prefix>
         <jib-maven-plugin.version>2.1.0</jib-maven-plugin.version>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>jib-maven-plugin</artifactId>
+                <groupId>com.google.cloud.tools</groupId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>mcr.microsoft.com/java/jdk:11-zulu-alpine</image>
+                    </from>
+                    <to>
+                        <image>${docker.image.prefix}/${project.artifactId}</image>
+                    </to>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
