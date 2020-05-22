@@ -5,19 +5,21 @@
  */
 package hello;
 
-import java.util.concurrent.CompletableFuture;
-
-import org.springframework.cloud.endpoint.event.RefreshEvent;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController implements ApplicationEventPublisherAware {
+public class HelloController {
+    private final Logger LOGGER= LoggerFactory.getLogger(HelloController.class);
+    
     private final MessageProperties properties;
     
-    private ApplicationEventPublisher publisher;
+    @Autowired
+    private EventProducerAsync producer;
+
 
     public HelloController(MessageProperties properties) {
         this.properties = properties;
@@ -30,16 +32,9 @@ public class HelloController implements ApplicationEventPublisherAware {
     
     @GetMapping("/refresh")
     public void refresh() {
-        CompletableFuture.supplyAsync(() -> asyncRefresh());
-    }
-    
-    private boolean asyncRefresh() {
-        publisher.publishEvent(new RefreshEvent(this, "Endpoint Refresh", "Refreshing Configurations"));
-        return true;
+    LOGGER.info("refresh-begin");
+    producer.asyncRefresh();
+    LOGGER.info("refresh-end");
     }
 
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.publisher = applicationEventPublisher;
-    }
 }
